@@ -9,6 +9,7 @@ namespace MimeDetective.Tests.Extensions
 {
     public class FileInfoExtensionTests
     {
+        const string CsvFile = "./data/Documents/testCsv.csv";
         const string GoodFile = "./data/Images/test.jpg";
         const string GoodXmlFile = "./data/Documents/DocxWord2016.docx";
         const string GoodZipFile = "./data/Zip/images.zip";
@@ -28,11 +29,11 @@ namespace MimeDetective.Tests.Extensions
         [Fact]
         public async Task FromFileAsync()
         {
-            var fileInfo = new FileInfo(GoodFile);
+            var fileInfo = new FileInfo(CsvFile);
 
             var fileType = await fileInfo.GetFileTypeAsync();
 
-            Assert.True(fileType == MimeTypes.JPEG);
+            Assert.True(fileType == MimeTypes.CSV);
         }
 
         [Fact]

@@ -223,12 +223,14 @@ namespace MimeDetective
         //EVTX	 	Windows Vista event log file
         public readonly static FileType ELF = new FileType(new byte?[] { 0x45, 0x6C, 0x66, 0x46, 0x69, 0x6C, 0x65, 0x00 }, "elf", "text/plain");
 
-        public static readonly FileType[] Types = new FileType[] { PDF, JPEG, ZIP, ZIP_EMPTY, RAR, RTF, PNG, GIF, DLL_EXE, MS_OFFICE,
+        public readonly static FileType CSV = new FileType(EmptyHeader, "csv", "text/csv");
+
+        public static readonly FileType[] Types = new FileType[] {PDF, JPEG, ZIP, ZIP_EMPTY, RAR, RTF, PNG, GIF, DLL_EXE, MS_OFFICE,
                 BMP, DLL_EXE, ZIP_7z, GZ_TGZ, TAR_ZH, TAR_ZV, OGG, ICO, XML, XML_NoBom, XML_Utf8Bom, XML_UCS2BE, XML_UCS2LE, DWG, LIB_COFF, PST, PSD, BZ2,
                 AES, SKR, SKR_2, PKR, EML_FROM, ELF, TXT_UTF8, TXT_UTF16_BE, TXT_UTF16_LE, TXT_UTF32_BE, TXT_UTF32_LE,
-                Mp3ID3, Wav, Flac, MIDI,
+                Mp3ID3, Wav, Flac, MIDI, CSV,
                 Tiff, TiffLittleEndian, TiffBigEndian, TiffBig,
-                MP4Container, Mp4ISOv1, MovQuickTime, MP4VideoFiles, Mp4QuickTime, Mp4VideoFile, ThreeGPP2File, Mp4A, FLV };
+                MP4Container, Mp4ISOv1, MovQuickTime, MP4VideoFiles, Mp4QuickTime, Mp4VideoFile, ThreeGPP2File, Mp4A, FLV};
 
         //public static readonly FileType[] sortedTypes = Types.OrderBy(x => x.Header.Length).ToArray();
 

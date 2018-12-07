@@ -13,6 +13,8 @@ namespace MimeDetective.Tests
     {
         const string GoodFile = "./data/Images/test.jpg";
 
+        const string CsvFile = "./data/Documents/testCsv.csv";
+
         const string GoodXmlFile = "./data/Documents/DocxWord2016.docx";
 
         const string GoodZipFile = "./data/Zip/images.zip";

@@ -51,6 +51,11 @@ namespace MimeDetective
                 match = secondaryAnalyzer.Search(in readResult);
             }
 
+            if(match == null)
+            {
+                match = new DelimitedAnalyzer(',').Search(in readResult);
+            }
+
             return match;
         }
     }
