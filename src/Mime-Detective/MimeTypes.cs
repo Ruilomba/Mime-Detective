@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Buffers;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 
 namespace MimeDetective
 {
@@ -40,15 +37,16 @@ namespace MimeDetective
         //don't add them to the list, as they will be 'subtypes' of the ZIP type
         //Open Xml Document formats
         public readonly static FileType WORDX = new FileType(EmptyHeader, "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 512);
+
         public readonly static FileType PPTX = new FileType(EmptyHeader, "pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", 512);
         public readonly static FileType EXCELX = new FileType(EmptyHeader, "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 512);
 
         //Open Document formats
         public readonly static FileType ODT = new FileType(EmptyHeader, "odt", "application/vnd.oasis.opendocument.text", 512);
+
         public readonly static FileType ODS = new FileType(EmptyHeader, "ods", "application/vnd.oasis.opendocument.spreadsheet", 512);
         public readonly static FileType ODP = new FileType(EmptyHeader, "odp", "application/vnd.oasis.opendocument.presentation", 512);
         public readonly static FileType ODG = new FileType(EmptyHeader, "odg", "application/vnd.oasis.opendocument.graphics", 512);
-
 
         // common documents
         public readonly static FileType RTF = new FileType(new byte?[] { 0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31 }, "rtf", "application/rtf");
@@ -64,10 +62,13 @@ namespace MimeDetective
 
         // XML file encoded with UTF-8                                    <     ?     x     m     l     (spc)
         public readonly static FileType XML_NoBom = new FileType(new byte?[] { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20, }, "xml", "application/xml");
+
         // XML file encoded with UTF-8 + Byte order mark                         Byte Order Mark    <     ?     x     m     l     (spc)
         public readonly static FileType XML_Utf8Bom = new FileType(new byte?[] { 0x0EF, 0xBB, 0xBF, 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20, }, "xml", "application/xml");
+
         // XML file encoded with UCS-2 Big Endian                               BOM FEFF     <           ?           x           m           l           (spc)
         public readonly static FileType XML_UCS2BE = new FileType(new byte?[] { 0x0FF, 0xFE, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00, 0x20, 0x00, }, "xml", "application/xml");
+
         // XML file encoded with UCS-2 Little Endian                            BOM FFFE     <           ?           x           m           l           (spc)
         public readonly static FileType XML_UCS2LE = new FileType(new byte?[] { 0x0FE, 0xFF, 0x00, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00, 0x20, }, "xml", "application/xml");
 
@@ -137,6 +138,7 @@ namespace MimeDetective
         /// MP3 file with ID3 Meta-data
         /// </summary>
         public readonly static FileType Mp3ID3 = new FileType(new byte?[] { 0x49, 0x44, 0x33 }, "mp3", "audio/mpeg");
+
         //todo this needs analyzer support public readonly static FileType Mp3SyncFrame = new FileType(new byte?[] { 0xFF, 0xF1 }, "mp3", "audio/mpeg");
 
         //WAV	 	Resource Interchange File Format -- Audio for Windows file, where xx xx xx xx is the file size (little endian), audio/wav audio/x-wav
@@ -225,15 +227,14 @@ namespace MimeDetective
 
         public readonly static FileType CSV = new FileType(EmptyHeader, "csv", "text/csv");
 
-        public static readonly FileType[] Types = new FileType[] {PDF, JPEG, ZIP, ZIP_EMPTY, RAR, RTF, PNG, GIF, DLL_EXE, MS_OFFICE,
+        public static readonly FileType[] Types = new FileType[] { PDF, JPEG, ZIP, ZIP_EMPTY, RAR, RTF, PNG, GIF, DLL_EXE, MS_OFFICE,
                 BMP, DLL_EXE, ZIP_7z, GZ_TGZ, TAR_ZH, TAR_ZV, OGG, ICO, XML, XML_NoBom, XML_Utf8Bom, XML_UCS2BE, XML_UCS2LE, DWG, LIB_COFF, PST, PSD, BZ2,
                 AES, SKR, SKR_2, PKR, EML_FROM, ELF, TXT_UTF8, TXT_UTF16_BE, TXT_UTF16_LE, TXT_UTF32_BE, TXT_UTF32_LE,
-                Mp3ID3, Wav, Flac, MIDI, CSV,
+                Mp3ID3, Wav, Flac, MIDI,
                 Tiff, TiffLittleEndian, TiffBigEndian, TiffBig,
-                MP4Container, Mp4ISOv1, MovQuickTime, MP4VideoFiles, Mp4QuickTime, Mp4VideoFile, ThreeGPP2File, Mp4A, FLV};
+                MP4Container, Mp4ISOv1, MovQuickTime, MP4VideoFiles, Mp4QuickTime, Mp4VideoFile, ThreeGPP2File, Mp4A, FLV };
 
         //public static readonly FileType[] sortedTypes = Types.OrderBy(x => x.Header.Length).ToArray();
-
 
         /// <summary>
         /// OpenDocument And OpenXML Document types
@@ -278,6 +279,6 @@ namespace MimeDetective
             }
 
             return result;
-        }  
+        }
     }
 }

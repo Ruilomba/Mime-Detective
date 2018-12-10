@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace MimeDetective
 {
@@ -17,7 +16,18 @@ namespace MimeDetective
 
         public string Mime { get; }
 
+        public ushort Size { get; }
+
+        public string Description { get; }
+
         private readonly int hashCode;
+
+        public FileType(byte?[] header, string extension, string mime, ushort size, ushort offset, string description)
+            : this(header, extension, mime, offset)
+        {
+            this.Size = size;
+            this.Description = description;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileType"/> class
@@ -41,14 +51,14 @@ namespace MimeDetective
             hashCode = (base.GetHashCode() ^ Header.GetHashCode() ^ HeaderOffset ^ Extension.GetHashCode() ^ Mime.GetHashCode());
         }
 
-        public static bool operator == (FileType a, FileType b)
+        public static bool operator ==(FileType a, FileType b)
         {
             if (a is null && b is null)
                 return true;
 
             if (b is null)
                 return a.Equals(b);
-            
+
             return b.Equals(a);
         }
 
@@ -64,7 +74,7 @@ namespace MimeDetective
                 && Extension.Equals(type.Extension)
                 && Mime.Equals(type.Mime)
                 && CompareHeaders(Header, type.Header))
-                    return true;
+                return true;
 
             return false;
         }
