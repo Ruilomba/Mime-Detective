@@ -10,6 +10,7 @@ namespace MimeDetective.Tests.Extensions
     public class FileInfoExtensionTests
     {
         const string CsvFile = "./data/Documents/testCsv.csv";
+        const string TxtFile = "./data/Documents/testCsv.txt";
         const string GoodFile = "./data/Images/test.jpg";
         const string GoodXmlFile = "./data/Documents/DocxWord2016.docx";
         const string GoodZipFile = "./data/Zip/images.zip";

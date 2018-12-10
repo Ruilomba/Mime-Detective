@@ -25,52 +25,51 @@
 
         public FileType Search(in ReadResult readResult)
         {
-            var carriageReturnIndex = Array.FindIndex(readResult.Array, this.MatchPredicate);
-            if (carriageReturnIndex == -1)
+            if(Array.IndexOf(readResult.Array,CarriageReturn) == -1)
             {
                 return null;
             }
 
-            for (int i = 0; i < this.SampleLines; i++)
+            var delimiters = 0;
+            var prevDelimiters = 0;
+            int i = 0;
+            foreach (var fileByte in readResult.Array)
             {
-                var line = new byte[carriageReturnIndex];
-                Array.Copy(readResult.Array, line, carriageReturnIndex);
-                var delimitersLine = Array.FindAll(line, MatchDelimiter);
-                if (delimitersLine.Length == 0)
+                if (i >= SampleLines)
                 {
-                    return null;
+                    break;
+                }
+
+                if (fileByte == Delimiter)
+                {
+                    delimiters++;
+                }
+
+                if (EnfOfLine(fileByte))
+                {
+                    if (delimiters == 0)
+                    {
+                        return null;
+                    }
+
+                    if (prevDelimiters != 0)
+                    {
+                        if (prevDelimiters != delimiters)
+                        {
+                            return null;
+                        }
+                    }
+                    i++;
+                    prevDelimiters = delimiters;
+                    delimiters = 0;
                 }
             }
-
-            var firstLine = new byte[carriageReturnIndex];
-            Array.Copy(readResult.Array, firstLine, carriageReturnIndex);
-            var delimitersFirstLine = Array.FindAll(readResult.Array, MatchDelimiter);
-            if (delimitersFirstLine.Length == 0)
-            {
-                return null;
-            }
-
-            var firstLineDelimitersCount = delimitersFirstLine.Length;
-            var secondLine = new byte[carriageReturnIndex];
-            Array.Copy(readResult.Array, carriageReturnIndex + 1, secondLine, 0, carriageReturnIndex);
-            var delimitersSecondLine = Array.FindAll(readResult.Array, MatchDelimiter);
-            var secondLineDelimitersCount = delimitersSecondLine.Length;
-            if (secondLineDelimitersCount == firstLineDelimitersCount)
-            {
-                return MimeTypes.CSV;
-            }
-
-            return null;
+            return MimeTypes.CSV;
         }
 
-        private bool MatchPredicate(byte obj)
+        private static bool EnfOfLine(byte fileByte)
         {
-            return obj == CarriageReturn;
-        }
-
-        private bool MatchDelimiter(byte obj)
-        {
-            return obj == Delimiter;
+            return fileByte == CarriageReturn;
         }
     }
 }
